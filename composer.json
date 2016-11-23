@@ -12,5 +12,10 @@
             "name": "Jan Decavele",
             "email": "jandecavele@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "CriticalCssProvider\\": "src/"
+        }
+    }
 }
