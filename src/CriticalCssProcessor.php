@@ -23,11 +23,34 @@ class CriticalCssProcessor implements PostProcessorInterface
      */
     public function process($rawHtml, $name = '', $context = [], $environment = null)
     {
-        /** @var CriticalCssExtension $criticalCssExtension */
-        try {
 
+        try {
+            $document = new DOMDocument();
+            $internalErrors = libxml_use_internal_errors(true);
+            $document->loadHTML(mb_convert_encoding($rawHtml, 'HTML-ENTITIES', 'UTF-8'));
+            libxml_use_internal_errors($internalErrors);
+            $document->formatOutput = true;
+            /** @var CriticalCssExtension $criticalCssExtension */
             $criticalCssExtension = $environment->getExtension(CriticalCssExtension::class);
-            $criticalCss = $criticalCssExtension->getCriticalCss();
+            foreach ($document->getElementsByTagName('link') as $linkTag) {
+                /** @var DOMElement $linkTag */
+                if ($linkTag->getAttribute('rel') == 'stylesheet') {
+                    $stylesheet = $linkTag->getAttribute('href');
+                    if(($content = file_get_contents($stylesheet)) !== false){
+                        $criticalCssExtension->addBaseRules($content);
+                    }elseif(($content = file_get_contents($context['domain'].$stylesheet)) !== false){
+                        $criticalCssExtension->addBaseRules($content);
+                    }
+                }
+            }
+
+        } catch (\Exception $exception) {
+            error_log($exception->getMessage());
+            return $rawHtml;
+        }
+
+        try {
+           $criticalCss = $criticalCssExtension->buildCriticalCssFromSnippets();
             if (strlen($criticalCss) == 0) {
                 return $rawHtml;
             }
@@ -35,13 +58,8 @@ class CriticalCssProcessor implements PostProcessorInterface
             error_log($tew->getMessage());
             return $rawHtml;
         }
-        try {
-            $document = new DOMDocument();
-            $internalErrors = libxml_use_internal_errors(true);
-            $document->loadHTML(mb_convert_encoding($rawHtml, 'HTML-ENTITIES', 'UTF-8'));
-            libxml_use_internal_errors($internalErrors);
-            $document->formatOutput = true;
 
+        try {
             $headStyle = new DOMElement('style', $criticalCss);
             $document->getElementsByTagName('head')->item(0)->appendChild($headStyle);
             return $document->saveHTML();
