@@ -36,9 +36,9 @@ class CriticalCssProcessor implements PostProcessorInterface
                 /** @var DOMElement $linkTag */
                 if ($linkTag->getAttribute('rel') == 'stylesheet') {
                     $stylesheet = $linkTag->getAttribute('href');
-                    if(($content = file_get_contents($stylesheet)) !== false){
+                    if (($content = @file_get_contents($stylesheet)) !== false) {
                         $criticalCssExtension->addBaseRules($content);
-                    }elseif(($content = file_get_contents($context['domain'].$stylesheet)) !== false){
+                    } elseif (($content = @file_get_contents($_SERVER['DOCUMENT_ROOT'] . $stylesheet)) !== false) {
                         $criticalCssExtension->addBaseRules($content);
                     }
                 }
@@ -50,7 +50,7 @@ class CriticalCssProcessor implements PostProcessorInterface
         }
 
         try {
-           $criticalCss = $criticalCssExtension->buildCriticalCssFromSnippets();
+            $criticalCss = $criticalCssExtension->buildCriticalCssFromSnippets();
             if (strlen($criticalCss) == 0) {
                 return $rawHtml;
             }
