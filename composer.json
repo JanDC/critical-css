@@ -3,8 +3,8 @@
     "description": "Twig postprocessor class which uses the the page-specific-css library to inject the document's head with css",
     "type": "library",
     "require": {
-        "jandc/twig-wrapper-provider": "dev-master",
-        "jandc/page-specific-css": "dev-master"
+        "jandc/twig-wrapper-provider": "^0.2",
+        "jandc/page-specific-css": "^0.2"
     },
     "license": "MIT",
     "authors": [
