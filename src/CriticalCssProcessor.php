@@ -6,8 +6,8 @@ use DOMDocument;
 use DOMElement;
 use Twig_Environment;
 use Twig_Error_Runtime;
-use TwigWrapperProvider\Processors\PostProcessorInterface;
 use PageSpecificCss\Twig\Extension as CriticalCssExtension;
+use TwigWrapper\PostProcessorInterface;
 
 class CriticalCssProcessor implements PostProcessorInterface
 {
