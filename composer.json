@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "jandc/twig-wrapper": "^0.2",
-        "jandc/page-specific-css": "^0.2"
+        "jandc/page-specific-css": "^0.3"
     },
     "license": "MIT",
     "authors": [
