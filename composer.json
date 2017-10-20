@@ -1,10 +1,10 @@
 {
-    "name": "jandc/critical-css-processor",
-    "description": "Twig postprocessor class which uses the the page-specific-css library to inject the document's head with css",
+    "name": "jandc/critical-css",
+    "description": "Package wrapper and twig postprocessor class which uses the 'css from html' library and twigwrapper to inject a document's head with critical css",
     "type": "library",
     "require": {
         "jandc/twig-wrapper": "^0.2",
-        "jandc/page-specific-css": "^0.3"
+        "jandc/css-from-html-extractor": "^1.0"
     },
     "license": "MIT",
     "authors": [

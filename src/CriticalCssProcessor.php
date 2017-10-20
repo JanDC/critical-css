@@ -6,7 +6,7 @@ use DOMDocument;
 use DOMElement;
 use Twig_Environment;
 use Twig_Error_Runtime;
-use PageSpecificCss\Twig\Extension as CriticalCssExtension;
+use CSSFromHTMLExtractor\Twig\Extension as ExtractorExtension;
 use TwigWrapper\PostProcessorInterface;
 
 class CriticalCssProcessor implements PostProcessorInterface
@@ -30,16 +30,19 @@ class CriticalCssProcessor implements PostProcessorInterface
             $document->loadHTML(mb_convert_encoding($rawHtml, 'HTML-ENTITIES', 'UTF-8'));
             libxml_use_internal_errors($internalErrors);
             $document->formatOutput = true;
-            /** @var CriticalCssExtension $criticalCssExtension */
-            $criticalCssExtension = $environment->getExtension(CriticalCssExtension::class);
+            /** @var ExtractorExtension $extractorExtension */
+            $extractorExtension = $environment->getExtension(ExtractorExtension::class);
             foreach ($document->getElementsByTagName('link') as $linkTag) {
                 /** @var DOMElement $linkTag */
                 if ($linkTag->getAttribute('rel') == 'stylesheet') {
                     $stylesheet = $linkTag->getAttribute('href');
                     if (($content = @file_get_contents($stylesheet)) !== false) {
-                        $criticalCssExtension->addBaseRules($content);
-                    } elseif (($content = @file_get_contents($_SERVER['DOCUMENT_ROOT'] . $stylesheet)) !== false) {
-                        $criticalCssExtension->addBaseRules($content);
+                        $extractorExtension->addBaseRules($content);
+                        continue;
+                    }
+                    if (($content = @file_get_contents($_SERVER['DOCUMENT_ROOT'] . $stylesheet)) !== false) {
+                        $extractorExtension->addBaseRules($content);
+                        continue;
                     }
                 }
             }
@@ -50,7 +53,7 @@ class CriticalCssProcessor implements PostProcessorInterface
         }
 
         try {
-            $criticalCss = $criticalCssExtension->buildCriticalCssFromSnippets();
+            $criticalCss = $extractorExtension->buildCriticalCssFromSnippets();
             if (strlen($criticalCss) == 0) {
                 return $rawHtml;
             }
