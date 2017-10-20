@@ -41,5 +41,4 @@ If you have your own implementation, please send a pull request to add it to thi
 ##### Render your pages, using the twigwrapper
 ```php
  $twigWrapper->render('@templates/my/template.twig', ['foo'=>'bar']);
- 
  ```
