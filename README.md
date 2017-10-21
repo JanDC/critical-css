@@ -4,7 +4,7 @@ PHP library for generating critical CSS.
 
 ## Features
 
-* Automatically generated
+* Automatically generated for each page
 * Manual control through `{% fold %}{% endfold %}` tags
 * Dynamically resolves CSS used on each page
 
