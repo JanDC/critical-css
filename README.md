@@ -6,20 +6,9 @@ PHP library for generating critical CSS.
 
 * Automatically generated
 * Manual control through `{% fold %}{% endfold %}` tags
-* Dynamically resolves CSS used on the page
-* Mediaqueries and pseudoclasses are supported
+* Dynamically resolves CSS used on each page
 
-
-## Implementations
-
-* [Silex](https://github.com/JanDC/critical-css-silex)
-
-If you have your own implementation, please send a pull request to add it to this list.
-
-
-## Custom implementation
-
-##### Installation
+## Installation
 
 ``composer require jandc/critical-css ``
 
@@ -42,3 +31,9 @@ If you have your own implementation, please send a pull request to add it to thi
 ```php
  $twigWrapper->render('@templates/my/template.twig', ['foo'=>'bar']);
  ```
+ 
+## Available implementations
+
+* [Silex](https://github.com/JanDC/critical-css-silex)
+
+If you have your own implementation, please send a pull request to add it to this list.
