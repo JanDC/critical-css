@@ -36,6 +36,9 @@ class CriticalCssProcessor implements PostProcessorInterface
                 /** @var DOMElement $linkTag */
                 if ($linkTag->getAttribute('rel') == 'stylesheet') {
                     $stylesheet = $linkTag->getAttribute('href');
+
+                    $stylesheet = reset(explode('?', $stylesheet));
+
                     if (($content = @file_get_contents($stylesheet)) !== false) {
                         $extractorExtension->addBaseRules($content);
                         continue;
