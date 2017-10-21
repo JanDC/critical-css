@@ -16,7 +16,6 @@ PHP library for generating critical CSS.
 ```php
  $twigEnvironment->addExtension(new CSSFromHTMLExtractor\Twig\Extension());
  $twigWrapper = new TwigWrapper($twigEnvironment, [new CriticalCssProcessor()]);
- 
  ```
 ##### Mark the regions of your templates with the provided blocks
 ```twig
