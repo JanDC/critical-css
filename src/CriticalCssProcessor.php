@@ -25,7 +25,7 @@ class CriticalCssProcessor implements PostProcessorInterface
     {
 
         try {
-            $document = new DOMDocument();
+            $document = new \DOMDocument('1.0', 'UTF-8');
             $internalErrors = libxml_use_internal_errors(true);
             $document->loadHTML(mb_convert_encoding($rawHtml, 'HTML-ENTITIES', 'UTF-8'));
             libxml_use_internal_errors($internalErrors);
@@ -67,7 +67,8 @@ class CriticalCssProcessor implements PostProcessorInterface
         try {
             $headStyle = new DOMElement('style', $criticalCss);
             $document->getElementsByTagName('head')->item(0)->appendChild($headStyle);
-            return $document->saveHTML();
+
+            return html_entity_decode($document->saveHTML(),null,'unicode');
         } catch (\Exception $exception) {
             error_log($exception->getMessage());
             return $rawHtml;
