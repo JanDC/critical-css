@@ -35,9 +35,8 @@ class CriticalCssProcessor implements PostProcessorInterface
             foreach ($document->getElementsByTagName('link') as $linkTag) {
                 /** @var DOMElement $linkTag */
                 if ($linkTag->getAttribute('rel') == 'stylesheet') {
-                    $stylesheet = $linkTag->getAttribute('href');
-
-                    $stylesheet = reset(explode('?', $stylesheet));
+                    $tokenisedStylesheet = explode('?', $linkTag->getAttribute('href'));
+                    $stylesheet = reset($tokenisedStylesheet);
 
                     if (($content = @file_get_contents($stylesheet)) !== false) {
                         $extractorExtension->addBaseRules($content);
