@@ -2,6 +2,8 @@
 
 PHP library for generating critical CSS.
 
+![critical css banner](https://critical-css.jandc.io/images/banner.jpg)
+
 ## Features
 
 * PHP only, no Node.js required.
