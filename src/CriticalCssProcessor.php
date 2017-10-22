@@ -4,6 +4,7 @@ namespace CriticalCssProcessor;
 
 use DOMDocument;
 use DOMElement;
+use Masterminds\HTML5;
 use Twig_Environment;
 use Twig_Error_Runtime;
 use CSSFromHTMLExtractor\Twig\Extension as ExtractorExtension;
@@ -25,11 +26,9 @@ class CriticalCssProcessor implements PostProcessorInterface
     {
 
         try {
-            $document = new \DOMDocument('1.0', 'UTF-8');
-            $internalErrors = libxml_use_internal_errors(true);
-            $document->loadHTML(mb_convert_encoding($rawHtml, 'HTML-ENTITIES', 'UTF-8'));
-            libxml_use_internal_errors($internalErrors);
-            $document->formatOutput = true;
+            $html5 = new HTML5();
+            $document = $html5->loadHTML($rawHtml);
+
             /** @var ExtractorExtension $extractorExtension */
             $extractorExtension = $environment->getExtension(ExtractorExtension::class);
             foreach ($document->getElementsByTagName('link') as $linkTag) {
@@ -68,7 +67,7 @@ class CriticalCssProcessor implements PostProcessorInterface
             $headStyle = new DOMElement('style', $criticalCss);
             $document->getElementsByTagName('head')->item(0)->appendChild($headStyle);
 
-            return html_entity_decode($document->saveHTML(),null,'unicode');
+            return $html5->saveHTML($document);
         } catch (\Exception $exception) {
             error_log($exception->getMessage());
             return $rawHtml;
