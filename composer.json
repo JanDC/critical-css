@@ -5,7 +5,8 @@
     "require": {
         "jandc/twig-wrapper": "^0.3",
         "jandc/css-from-html-extractor": "^1.0",
-        "masterminds/html5": "^2.3"
+        "masterminds/html5": "^2.3",
+        "doctrine/cache": "^1.7"
     },
     "license": "MIT",
     "authors": [

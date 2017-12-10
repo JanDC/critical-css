@@ -2,6 +2,8 @@
 
 namespace CriticalCssProcessor;
 
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\Cache;
 use DOMDocument;
 use DOMElement;
 use Masterminds\HTML5;
@@ -12,6 +14,18 @@ use TwigWrapper\PostProcessorInterface;
 
 class CriticalCssProcessor implements PostProcessorInterface
 {
+
+    /** @var Cache */
+    private $fileCache;
+
+    public function __construct(Cache $fileCache = null)
+    {
+        $this->fileCache = $fileCache;
+        if (is_null($fileCache)) {
+            $this->fileCache = new ArrayCache();
+        }
+
+    }
 
     /**
      * @param string $rawHtml
@@ -37,11 +51,19 @@ class CriticalCssProcessor implements PostProcessorInterface
                     $tokenisedStylesheet = explode('?', $linkTag->getAttribute('href'));
                     $stylesheet = reset($tokenisedStylesheet);
 
+                    if ($content = $this->fileCache->fetch($stylesheet)) {
+                        $extractorExtension->addBaseRules($content);
+                        continue;
+                    }
+
+
                     if (($content = @file_get_contents($stylesheet)) !== false) {
+                        $this->fileCache->save($stylesheet, $content);
                         $extractorExtension->addBaseRules($content);
                         continue;
                     }
                     if (($content = @file_get_contents($_SERVER['DOCUMENT_ROOT'] . $stylesheet)) !== false) {
+                        $this->fileCache->save($stylesheet, $content);
                         $extractorExtension->addBaseRules($content);
                         continue;
                     }
