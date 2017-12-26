@@ -11,6 +11,9 @@ PHP library for generating critical CSS.
 * Manual control through `{% fold %}{% endfold %}` tags
 * Dynamically resolves CSS used on each page
 
+## Site(s) using Critical CSS
+* https://www.farmaline.be/apotheek/
+
 ## Installation
 
 ``composer require jandc/critical-css ``
