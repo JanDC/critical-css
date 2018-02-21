@@ -1,6 +1,6 @@
 {
     "name": "jandc/critical-css",
-    "description": "Package wrapper and twig postprocessor class which uses the 'css from html' library and twigwrapper to inject a document's head with critical css",
+    "description": "Package wrapper and twig postprocessor class which uses the 'css from html extractor' library and twigwrapper to inject a document's head with critical css",
     "type": "library",
     "require": {
         "jandc/twig-wrapper": "^0.3",
