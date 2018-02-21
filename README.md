@@ -20,6 +20,9 @@ PHP library for generating critical CSS.
 
 ##### Register the twig extension and create a wrapper instance with the critical CSS processor
 ```php
+ use TwigWrapper\TwigWrapper;
+ use CriticalCssProcessor\CriticalCssProcessor;
+
  $twigEnvironment->addExtension(new CSSFromHTMLExtractor\Twig\Extension());
  $twigWrapper = new TwigWrapper($twigEnvironment, [new CriticalCssProcessor()]);
  ```
