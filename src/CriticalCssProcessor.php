@@ -78,9 +78,6 @@ class CriticalCssProcessor implements PostProcessorInterface
         try {
             $criticalCss = $extractorExtension->buildCriticalCssFromSnippets();
 
-            if (method_exists($extractorExtension, 'purgeHtmlStore')) {
-                $extractorExtension->purgeHtmlStore();
-            }
             if (strlen($criticalCss) == 0) {
                 return $rawHtml;
             }
