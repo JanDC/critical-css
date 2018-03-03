@@ -3,8 +3,8 @@
     "description": "Package wrapper and twig postprocessor class which uses the 'css from html extractor' library and twigwrapper to inject a document's head with critical css",
     "type": "library",
     "require": {
-        "jandc/twig-wrapper": "^0.3",
-        "jandc/css-from-html-extractor": "^1.0",
+        "jandc/twig-wrapper": "^0.4",
+        "jandc/css-from-html-extractor": "^1.1",
         "masterminds/html5": ">2.2",
         "doctrine/cache": ">1.6"
     },
